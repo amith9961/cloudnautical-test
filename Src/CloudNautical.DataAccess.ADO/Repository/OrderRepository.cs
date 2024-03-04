@@ -16,7 +16,14 @@ namespace CloudNautical.DataAccess.ADO.Repository
             {
                 { "@CustomerId",customerId}
             };
-            return ExecuteQuery(sqlQuery: sql, MapCustomerOrder, parameters: param).First();
+            try
+            {
+                return ExecuteQuery(sqlQuery: sql, MapCustomerOrder, parameters: param).First();
+            }
+            catch (Exception ex)
+            {
+                return new OrderDetails();
+            }
         }
         private OrderDetails MapCustomerOrder(IDataReader reader)
         {
