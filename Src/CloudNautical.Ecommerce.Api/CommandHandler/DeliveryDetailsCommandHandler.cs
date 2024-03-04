@@ -17,6 +17,10 @@ namespace CloudNautical.Ecommerce.Api.CommandHandler
         public async Task<DeliveryDetailsResponse> Handle(DeliveryDetailsCommand request, CancellationToken cancellationToken)
         {
             var deliverytInfo = await _deliveryService.GetDeliveryDetails(request.CustomerId, request.User);
+            if (deliverytInfo is null || deliverytInfo.OrderId is 0)
+            {
+                return new DeliveryDetailsResponse();
+            }
             if(request.User != deliverytInfo.Email)
             {
                 throw new ArgumentException("Invalid data provided.", nameof(request.User));
